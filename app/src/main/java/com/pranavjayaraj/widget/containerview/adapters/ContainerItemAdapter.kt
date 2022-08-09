@@ -22,6 +22,7 @@ import com.pranavjayaraj.utils.GlideDelegate
 import com.pranavjayaraj.widget.containerview.Constants
 import android.view.MotionEvent
 import com.pranavjayaraj.BaseAdapterItemClick
+import com.pranavjayaraj.domain.models.containerModels.EntitiesModel
 import com.pranavjayaraj.widget.containerview.ContainerView.Companion.PARTIAL_GONE
 import com.pranavjayaraj.widget.containerview.ContainerView.Companion.PERMANENT_GONE
 import com.pranavjayaraj.widget.containerview.ContainerView.Companion.VISIBLE
@@ -81,9 +82,9 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
                 with(binding)
                 {
                     model.cardType = Constants.get(cardDesignType)?.key
-                    tvSmallCardTitle.text = model.title
+                    val formattedTitle:String? = formatText(text = model.formattedTitles?.text?:"",entities = model.formattedTitles?.entities?: arrayListOf())
+                    tvSmallCardTitle.text = formattedTitle?:model.title
                     binding.smallCardLayout.setCardBackgroundColor(Color.parseColor(model.bgColor?:"#FFFFFF"))
-                    tvSmallCardDesc.text = model.description
                     GlideDelegate(itemView.context).loadUrlWithPlaceHolder(
                         ivSmallCardIcon,
                         model.icon?.imageUrl,
@@ -104,6 +105,7 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
             if (model is CardDataModel) {
                 with(binding)
                 {
+                    val formattedTitle:String? = formatText(text = model.formattedTitles?.text?:"",entities = model.formattedTitles?.entities?: arrayListOf())
                     model.cardType = Constants.get(cardDesignType)?.key
                     val constraintSet = ConstraintSet()
                     constraintSet.clone(root)
@@ -148,6 +150,7 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
                 with(binding)
                 {
                     model.cardType = Constants.get(cardDesignType)?.key
+                    val formattedTitle:String? = formatText(text = model.formattedTitles?.text?:"",entities = model.formattedTitles?.entities?: arrayListOf())
                     val constraintSet = ConstraintSet()
                     constraintSet.clone(root)
                     constraintSet.setDimensionRatio(R.id.ivImageCard,model.bgImageModel?.aspectRatio)
@@ -169,9 +172,11 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
             if (model is CardDataModel) {
                 with(binding)
                 {
+
                     model.cardType = Constants.get(cardDesignType)?.key
                     binding.smallCardArrowLayout.setCardBackgroundColor(Color.parseColor(model.bgColor?:"#FFFFFF"))
-                    tvSmallCardArrowTitle.text = model.title
+                    val formattedTitle:String? = formatText(text = model.formattedTitles?.text?:"",entities = model.formattedTitles?.entities?: arrayListOf())
+                    tvSmallCardArrowTitle.text = formattedTitle?:model.title
                     GlideDelegate(itemView.context).loadUrlWithPlaceHolder(
                         ivSmallCardArrowIcon,
                         model.icon?.imageUrl,
@@ -207,6 +212,23 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
             }
         }
 
+    }
+
+    fun formatText(text: String, entities: ArrayList<EntitiesModel>):String? {
+        var count = 0
+        var currText = text
+        var solution: StringBuffer = StringBuffer(text)
+        for (i in text.indices) {
+            if (text[i] == '{' && text[i + 1] == '}') {
+                solution = StringBuffer(currText)
+                solution.setCharAt(i, '\u0000')
+                solution.setCharAt(i + 1, '\u0000')
+                solution.insert(i, entities[count].text)
+                currText = solution.toString()
+                count++
+            }
+        }
+        return solution.toString()
     }
 }
 

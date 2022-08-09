@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.pranavjayaraj.base.BaseViewModel
 import com.pranavjayaraj.domain.SchedulerProvider
+import com.pranavjayaraj.domain.base.ResourceState
 import com.pranavjayaraj.domain.models.containerModels.ContainerRemoteResModel
 import com.pranavjayaraj.domain.usecase.GetCardStatusUseCase
 import com.pranavjayaraj.domain.usecase.GetContainerUseCase
@@ -20,26 +21,23 @@ class ContainerViewModel @Inject constructor(
 
     var isFirstTimeContainerCalled = true
 
-    var cardStats:String? = "VISIBLE"
-
-    val containerLiveData = MutableLiveData<ContainerRemoteResModel>()
+    val containerLiveData = MutableLiveData<ResourceState<ContainerRemoteResModel>>()
 
     fun getContainer() {
         getContainerUseCase.execute()
             .observeOn(schedulers.ui())
             .subscribeOn(schedulers.io())
             .subscribe({
-                containerLiveData.postValue(it)
+                containerLiveData.postValue(ResourceState.Success(it))
             }, {
+                containerLiveData.postValue(ResourceState.Failure(it))
             }).let {
                 getCompositeDisposable().add(it)
             }
     }
 
     fun getCardStatus(): String? {
-
-        cardStats = cardStatusUseCase.execute()
-        return cardStats
+        return cardStatusUseCase.execute()
     }
 
     fun setCardStatus(status: String) {

@@ -15,7 +15,7 @@ import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
-abstract class BaseActivity : ThemeActivity() {
+abstract class BaseActivity : DaggerAppCompatActivity() {
 
     abstract val contentView: Int
         @LayoutRes

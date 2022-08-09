@@ -22,21 +22,31 @@ import com.pranavjayaraj.utils.getLifecycleOwner
 import com.pranavjayaraj.widget.containerview.adapters.ContainerAdapter
 import com.pranavjayaraj.widget.containerview.viewModels.ContainerViewModel
 import android.net.Uri
-
-
+import android.widget.ProgressBar
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.pranavjayaraj.domain.base.ResourceState
+import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.view_container.view.*
 
 
 class ContainerView : FrameLayout, LifecycleObserver {
 
     private var mContext: Context? = null
 
-    lateinit var mContainerAdapter:ContainerAdapter
+    private lateinit var mContainerAdapter:ContainerAdapter
 
     private var mContainerRecyclerView: RecyclerView? = null
 
+    private var mProgressBar: ProgressBar? = null
+
     lateinit var viewModel : ContainerViewModel
 
-    lateinit var cardList: List<CardGroupModel>
+    lateinit var srl : SwipeRefreshLayout
+
+    lateinit var errorView : AppCompatTextView
+
+    private lateinit var cardList: List<CardGroupModel>
 
     constructor(context: Context) : super(context) {
         val view: View = LayoutInflater.from(context).inflate(R.layout.view_container, this);
@@ -63,6 +73,12 @@ class ContainerView : FrameLayout, LifecycleObserver {
     private fun setupUI(view: View)
     {
         mContainerRecyclerView = view.findViewById<View>(R.id.rvContainer) as RecyclerView
+        srl = view.findViewById<View>(R.id.containerSrl) as SwipeRefreshLayout
+        srl.setOnRefreshListener {
+            viewModel.getContainer()
+        }
+        mProgressBar = view.findViewById<View>(R.id.loader) as ProgressBar
+        errorView = view.findViewById<View>(R.id.failedView) as AppCompatTextView
         setupAdapter()
     }
 
@@ -114,17 +130,35 @@ class ContainerView : FrameLayout, LifecycleObserver {
         mContainerRecyclerView?.adapter = mContainerAdapter
     }
 
+
     private fun observeEvents() {
         viewModel.containerLiveData.observe(context.getLifecycleOwner(), {
-            var list: List<CardGroupModel> = it.cardGroups ?: emptyList()
-            if (viewModel.isFirstTimeContainerCalled && viewModel.cardStats == PARTIAL_GONE) {
-                setCardStatus(VISIBLE)
-            } else if (viewModel.cardStats in arrayOf(PARTIAL_GONE, PERMANENT_GONE)) {
-                list = list.filter { it.designType != Constants.BIG_DISPLAY_CARD.key }
+            srl.isRefreshing = false
+            mProgressBar?.visibility = View.INVISIBLE
+            when (it) {
+                is ResourceState.Success -> {
+                    mContainerRecyclerView?.visibility = View.VISIBLE
+                    errorView.visibility = View.GONE
+
+                    var list: List<CardGroupModel> = it.body.cardGroups ?: emptyList()
+                    var cardStatus = viewModel.getCardStatus()
+                    if (viewModel.isFirstTimeContainerCalled && cardStatus == PARTIAL_GONE) {
+                        setCardStatus(VISIBLE)
+                    }
+                    else if (cardStatus in arrayOf(PARTIAL_GONE, PERMANENT_GONE)) {
+                        list = list.filter { it.designType != Constants.BIG_DISPLAY_CARD.key }
+                    }
+
+                    viewModel.isFirstTimeContainerCalled = false
+                    mContainerAdapter.addList(list)
+                    cardList = list
+                }
+                is ResourceState.Failure ->
+                {
+                    mContainerRecyclerView?.visibility = View.GONE
+                    errorView.visibility = View.VISIBLE
+                }
             }
-            viewModel.isFirstTimeContainerCalled = false
-            mContainerAdapter.addList(list)
-            cardList = list
         })
     }
 

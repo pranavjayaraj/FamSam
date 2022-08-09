@@ -1,6 +1,6 @@
 package com.pranavjayaraj.domain.repository
 
-import com.pranavjayaraj.domain.models.ContainerRemoteResModel
+import com.pranavjayaraj.domain.models.containerModels.ContainerRemoteResModel
 import io.reactivex.Single
 
 

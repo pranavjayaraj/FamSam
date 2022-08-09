@@ -1,7 +1,7 @@
 package com.pranavjayaraj.di
 
 import android.app.Application
-import com.pranavjayaraj.base.FamSampleApp
+import com.pranavjayaraj.FamSampleApp
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule

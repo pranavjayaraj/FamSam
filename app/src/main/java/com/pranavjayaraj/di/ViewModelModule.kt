@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.pranavjayaraj.common.ViewModelFactory
 import com.pranavjayaraj.common.ViewModelKey
-import com.pranavjayaraj.ui.viewModels.HomeViewModel
+import com.pranavjayaraj.widget.containerview.viewModels.ContainerViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -17,6 +17,6 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(HomeViewModel::class)
-    abstract fun providesMainViewModel(viewModel: HomeViewModel): ViewModel
+    @ViewModelKey(ContainerViewModel::class)
+    abstract fun providesMainViewModel(viewModel: ContainerViewModel): ViewModel
 }

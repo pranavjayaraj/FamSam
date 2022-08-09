@@ -1,13 +1,13 @@
-package com.pranavjayaraj.ui.viewModels
+package com.pranavjayaraj.widget.containerview.viewModels
 
+import android.util.Log
 import com.pranavjayaraj.base.BaseViewModel
-import com.pranavjayaraj.data.SchedulersFacade
 import com.pranavjayaraj.domain.SchedulerProvider
 import com.pranavjayaraj.domain.usecase.GetContainerUseCase
 import timber.log.Timber
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(
+class ContainerViewModel @Inject constructor(
     schedulersFacade: SchedulerProvider,
     private val getContainerUseCase: GetContainerUseCase
 ) : BaseViewModel(schedulersFacade) {
@@ -17,9 +17,10 @@ class HomeViewModel @Inject constructor(
             .observeOn(schedulers.ui())
             .subscribeOn(schedulers.io())
             .subscribe({
-                Timber.d("[DATA]"+it)
+                Log.d("[SUCCESS]","DATA IS"+it)
+                Timber.d("[DATA IS]"+it)
             }, {
-
+                Log.d("[FAILED]","DATA IS"+it)
             })
     }
 

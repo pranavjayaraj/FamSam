@@ -1,6 +1,6 @@
 package com.pranavjayaraj.data.services
 
-import com.pranavjayaraj.domain.models.ContainerRemoteResModel
+import com.pranavjayaraj.domain.models.containerModels.ContainerRemoteResModel
 import com.pranavjayaraj.domain.repository.ApiRepository
 import io.reactivex.Single
 import javax.inject.Inject

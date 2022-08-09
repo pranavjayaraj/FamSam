@@ -11,7 +11,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import com.google.gson.Gson
-import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.GsonBuilder
 import com.pranavjayaraj.data.BuildConfig
 import com.pranavjayaraj.data.utils.HeaderInterceptor
@@ -35,12 +34,9 @@ class NetworkModule {
         okHttpBuilder.addInterceptor(HeaderInterceptor())
         okHttpBuilder.readTimeout(40, TimeUnit.SECONDS)
         okHttpBuilder.connectTimeout(40, TimeUnit.SECONDS)
-        if (BuildConfig.DEBUG) {
-            okHttpBuilder.addNetworkInterceptor(StethoInterceptor())
-            val loggingInterceptor = HttpLoggingInterceptor()
-            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-            okHttpBuilder.addInterceptor(loggingInterceptor)
-        }
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        okHttpBuilder.addInterceptor(loggingInterceptor)
         return okHttpBuilder
     }
 
@@ -77,7 +73,6 @@ class NetworkModule {
         httpClientBuilder.readTimeout(40, TimeUnit.SECONDS)
         httpClientBuilder.writeTimeout(40, TimeUnit.SECONDS)
         if (BuildConfig.DEBUG) {
-            httpClientBuilder.addNetworkInterceptor(StethoInterceptor())
             val loggingInterceptor = HttpLoggingInterceptor()
             loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
             httpClientBuilder.addInterceptor(loggingInterceptor)

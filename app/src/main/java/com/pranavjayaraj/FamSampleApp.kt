@@ -1,4 +1,4 @@
-package com.pranavjayaraj.base
+package com.pranavjayaraj
 
 import com.pranavjayaraj.di.AppComponent
 import com.pranavjayaraj.di.DaggerAppComponent

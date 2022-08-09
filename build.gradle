@@ -25,7 +25,7 @@ allprojects {
 
 ext {
     config = [
-            baseUrl                  : "\"/\"",
+            baseUrl                  : "\"https://run.mocky.io/\"",
             okHttp                   : '4.8.0',
             retrofit                 : '2.6.0',
             gson                     : '2.8.5',
@@ -36,7 +36,7 @@ ext {
             timber                   : '4.7.1',
             mockito_version          : '2.22.0',
             mockito_kotlin           : '2.0.0-RC1',
-            dagger                   : '2.16',
+            dagger                   : '2.40.2',
             glide                    : '4.11.0',
             rxPermission             : '0.10.2',
             timber_version           : '4.7.1'

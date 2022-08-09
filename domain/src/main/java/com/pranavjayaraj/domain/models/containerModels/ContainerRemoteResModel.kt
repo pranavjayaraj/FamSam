@@ -45,6 +45,11 @@ data class CardDataModel(
     @SerializedName("bg_color")
     val bgColor: String?
 ):BaseModel
+{
+    var status:String = "VISIBLE"
+    var cardType:String? = ""
+    var viewType:String = ""
+}
 
 data class FormattedTitles(
     @SerializedName("text")

@@ -21,11 +21,13 @@ import com.pranavjayaraj.domain.models.containerModels.base.BaseModel
 import com.pranavjayaraj.utils.GlideDelegate
 import com.pranavjayaraj.widget.containerview.Constants
 import android.view.MotionEvent
+import com.pranavjayaraj.BaseAdapterItemClick
+import com.pranavjayaraj.widget.containerview.ContainerView.Companion.PARTIAL_GONE
+import com.pranavjayaraj.widget.containerview.ContainerView.Companion.PERMANENT_GONE
+import com.pranavjayaraj.widget.containerview.ContainerView.Companion.VISIBLE
 
 
-
-
-class ContainerItemsAdapter(private val cardDesignType:String,private val height:Int) : BaseAdapter<BaseViewHolder<BaseModel>>() {
+class ContainerItemsAdapter(private val cardDesignType:String,private val height:Int, private val onItemClick: (model:CardDataModel) -> Unit) : BaseAdapter<BaseViewHolder<BaseModel>>() {
 
     override fun bindVH(holder: BaseViewHolder<BaseModel>, position: Int, payload: VHUpdateType) {
         if (payload == VHUpdateType.DEFAULT) {
@@ -69,8 +71,6 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
     }
 
     override fun getItemViewType(position: Int): Int {
-        val model = getItemAtPos(position)
-        model as CardDataModel
         return Constants.get(cardDesignType)?.ordinal ?: -1
     }
 
@@ -80,6 +80,7 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
             if (model is CardDataModel) {
                 with(binding)
                 {
+                    model.cardType = Constants.get(cardDesignType)?.key
                     tvSmallCardTitle.text = model.title
                     binding.smallCardLayout.setCardBackgroundColor(Color.parseColor(model.bgColor?:"#FFFFFF"))
                     tvSmallCardDesc.text = model.description
@@ -88,6 +89,11 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
                         model.icon?.imageUrl,
                         0
                     )
+
+                    binding.root.setOnClickListener {
+                        model.viewType = "URL"
+                        onItemClick(model)
+                    }
                 }
             }
         }
@@ -98,6 +104,7 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
             if (model is CardDataModel) {
                 with(binding)
                 {
+                    model.cardType = Constants.get(cardDesignType)?.key
                     val constraintSet = ConstraintSet()
                     constraintSet.clone(root)
                     constraintSet.setDimensionRatio(R.id.ivCard,model.bgImageModel?.aspectRatio)
@@ -111,6 +118,25 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
                         .start();
                     true
                 }
+
+                binding.tvDismiss.setOnClickListener {
+                    model.status = PERMANENT_GONE
+                    onItemClick(model)
+                }
+
+                binding.tvRemindLater.setOnClickListener {
+                    model.status = PARTIAL_GONE
+                    onItemClick(model)
+                }
+
+                binding.root.setOnClickListener {
+                    model.viewType = "URL"
+                    onItemClick(model)
+                }
+                binding.root.setOnClickListener {
+                    model.viewType = "CTA"
+                    onItemClick(model)
+                }
             }
         }
 
@@ -121,11 +147,16 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
             if (model is CardDataModel) {
                 with(binding)
                 {
+                    model.cardType = Constants.get(cardDesignType)?.key
                     val constraintSet = ConstraintSet()
                     constraintSet.clone(root)
                     constraintSet.setDimensionRatio(R.id.ivImageCard,model.bgImageModel?.aspectRatio)
                     constraintSet.applyTo(root)
                     GlideDelegate(itemView.context).loadUrlWithPlaceHolder(ivImageCard,model.bgImageModel?.bgImage,0)
+                    binding.root.setOnClickListener {
+                        model.viewType = "URL"
+                        onItemClick(model)
+                    }
                 }
             }
         }
@@ -138,6 +169,7 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
             if (model is CardDataModel) {
                 with(binding)
                 {
+                    model.cardType = Constants.get(cardDesignType)?.key
                     binding.smallCardArrowLayout.setCardBackgroundColor(Color.parseColor(model.bgColor?:"#FFFFFF"))
                     tvSmallCardArrowTitle.text = model.title
                     GlideDelegate(itemView.context).loadUrlWithPlaceHolder(
@@ -145,6 +177,10 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
                         model.icon?.imageUrl,
                         0
                     )
+                    binding.root.setOnClickListener {
+                        model.viewType = "URL"
+                        onItemClick(model)
+                    }
                 }
             }
         }
@@ -156,12 +192,17 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
             if (model is CardDataModel) {
                 with(binding)
                 {
+                    model.cardType = Constants.get(cardDesignType)?.key
                     val constraintSet = ConstraintSet()
                     constraintSet.clone(root)
                     constraintSet.constrainHeight(R.id.ivDynamicCard,height.dpToPx().toInt())
                     constraintSet.setDimensionRatio(R.id.ivDynamicCard,model.bgImageModel?.aspectRatio)
                     constraintSet.applyTo(root)
                     GlideDelegate(itemView.context).loadUrlWithPlaceHolder(ivDynamicCard,model.bgImageModel?.bgImage,0)
+                    binding.root.setOnClickListener {
+                        model.viewType = "URL"
+                        onItemClick(model)
+                    }
                 }
             }
         }

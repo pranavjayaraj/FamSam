@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.pranavjayaraj.BaseAdapterItemClick
 import com.pranavjayaraj.R
 import com.pranavjayaraj.base.BaseAdapter
 import com.pranavjayaraj.base.BaseViewHolder
@@ -15,7 +16,7 @@ import com.pranavjayaraj.domain.models.containerModels.CardDataModel
 import com.pranavjayaraj.domain.models.containerModels.CardGroupModel
 import com.pranavjayaraj.domain.models.containerModels.base.BaseModel
 
-class ContainerAdapter : BaseAdapter<BaseViewHolder<BaseModel>>() {
+class ContainerAdapter(private val onItemClick: (model:CardDataModel) -> Unit) : BaseAdapter<BaseViewHolder<BaseModel>>() {
 
 
     override fun bindVH(holder: BaseViewHolder<BaseModel>, position: Int, payload: VHUpdateType) {
@@ -28,15 +29,17 @@ class ContainerAdapter : BaseAdapter<BaseViewHolder<BaseModel>>() {
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ),
+            onItemClick
         )
     }
 
-    class ViewHolder(private val binding: ItemContainerViewBinding) :
+    class ViewHolder(private val binding: ItemContainerViewBinding,
+                     private val onItemClick: (model:CardDataModel) -> Unit) :
         BaseViewHolder<BaseModel>(binding.root) {
         override fun bindData(model: BaseModel) {
             if (model is CardGroupModel) {
-                val mContainerItemAdapter = ContainerItemsAdapter(model.designType?:"",model.height?:0)
+                val mContainerItemAdapter = ContainerItemsAdapter(model.designType?:"",model.height?:0,onItemClick)
                 with(binding)
                 {
                     if (model.isScrollable==true) {

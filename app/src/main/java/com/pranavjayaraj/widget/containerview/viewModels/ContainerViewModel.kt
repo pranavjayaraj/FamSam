@@ -18,7 +18,9 @@ class ContainerViewModel @Inject constructor(
     private val setCardStatusUseCase: SetCardStatusUseCase
 ) : BaseViewModel(schedulersFacade) {
 
-    val isFirstTimeContainerCalled = false
+    var isFirstTimeContainerCalled = true
+
+    var cardStats:String? = "VISIBLE"
 
     val containerLiveData = MutableLiveData<ContainerRemoteResModel>()
 
@@ -35,7 +37,9 @@ class ContainerViewModel @Inject constructor(
     }
 
     fun getCardStatus(): String? {
-        return cardStatusUseCase.execute()
+
+        cardStats = cardStatusUseCase.execute()
+        return cardStats
     }
 
     fun setCardStatus(status: String) {

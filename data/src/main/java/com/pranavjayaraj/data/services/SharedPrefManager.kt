@@ -23,8 +23,9 @@ class SharedPreferenceManager private constructor(appContext: Context) {
             return instance!!
         }
     }
+    fun getString(key: String, defValue: String?): String? = prefs.getString(key, defValue)
 
-    fun getString(key: String): String? = getString(key)
+    fun getString(key: String): String? = getString(key,"")
 
     fun setString(key: String, value: String?) {
         prefs.edit().run {

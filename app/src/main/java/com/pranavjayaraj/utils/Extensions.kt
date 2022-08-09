@@ -47,3 +47,6 @@ fun Context.getLifecycleOwner(): LifecycleOwner {
         (this as ContextWrapper).baseContext as LifecycleOwner
     }
 }
+
+fun Context.dpToPixel(dp: Int): Int =
+    (dp * applicationContext.resources.displayMetrics.density).toInt()

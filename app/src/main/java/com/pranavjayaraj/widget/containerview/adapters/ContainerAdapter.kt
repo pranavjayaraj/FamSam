@@ -2,9 +2,11 @@ package com.pranavjayaraj.widget.containerview.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.pranavjayaraj.R
 import com.pranavjayaraj.base.BaseAdapter
 import com.pranavjayaraj.base.BaseViewHolder
 import com.pranavjayaraj.base.VHUpdateType
@@ -34,20 +36,20 @@ class ContainerAdapter : BaseAdapter<BaseViewHolder<BaseModel>>() {
         BaseViewHolder<BaseModel>(binding.root) {
         override fun bindData(model: BaseModel) {
             if (model is CardGroupModel) {
-                val mContainerItemAdapter = ContainerItemsAdapter(model.designType)
+                val mContainerItemAdapter = ContainerItemsAdapter(model.designType?:"",model.height?:0)
                 with(binding)
                 {
-                    if (model.isScrollable) {
+                    if (model.isScrollable==true) {
                         rvItemContainer.layoutManager = LinearLayoutManager(
                             itemView.context, RecyclerView.HORIZONTAL, false
                         )
                     } else {
                         rvItemContainer.layoutManager = GridLayoutManager(
-                            itemView.context, model.cardDataModel.size
+                            itemView.context, model.cardDataModel?.size?:0
                         )
                     }
                     rvItemContainer.adapter = mContainerItemAdapter
-                    val list: List<CardDataModel> = model.cardDataModel
+                    val list: List<CardDataModel> = model.cardDataModel?: emptyList()
                     mContainerItemAdapter.addList(list)
                 }
             }

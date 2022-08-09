@@ -5,57 +5,85 @@ import com.pranavjayaraj.domain.models.containerModels.base.BaseModel
 
 data class ContainerRemoteResModel(
     @SerializedName("card_groups")
-    val cardGroups: ArrayList<CardGroupModel>
+    val cardGroups: ArrayList<CardGroupModel>?
 )
 
 data class CardGroupModel(
     @SerializedName("id")
-    val id:Int,
+    val id:Int?,
     @SerializedName("name")
-    val name:String,
+    val name:String?,
     @SerializedName("design_type")
-    val designType: String,
+    val designType: String?,
     @SerializedName("cards")
-    val cardDataModel: ArrayList<CardDataModel>,
+    val cardDataModel: ArrayList<CardDataModel>?,
     @SerializedName("is_scrollable")
-    val isScrollable:Boolean
+    val isScrollable:Boolean?,
+    @SerializedName("height")
+    val height:Int?
 ):BaseModel
 
 data class CardDataModel(
     @SerializedName("name")
-    val name:String,
+    val name:String?,
     @SerializedName("title")
-    val title:String,
+    val title:String?,
     @SerializedName("formatted_title")
-    val formattedTitles:FormattedTitles,
+    val formattedTitles:FormattedTitles?,
     @SerializedName("description")
-    val description:String,
+    val description:String?,
     @SerializedName("formatted_description")
-    val formattedDescription:FormattedTitles,
+    val formattedDescription:FormattedTitles?,
     @SerializedName("icon")
-    val icon:IconModel,
+    val icon:IconModel?,
     @SerializedName("url")
-    val url:String
+    val url:String?,
+    @SerializedName("bg_image")
+    val bgImageModel: BgImageModel?,
+    @SerializedName("cta")
+    val ctaModel: ArrayList<CtaModel>?,
+    @SerializedName("bg_color")
+    val bgColor: String?
 ):BaseModel
 
 data class FormattedTitles(
     @SerializedName("text")
-    val text:String,
+    val text:String?,
     @SerializedName("entities")
-    val entities:ArrayList<EntitiesModel>
+    val entities:ArrayList<EntitiesModel>?
 )
 
 data class EntitiesModel(
     @SerializedName("text")
-    val text: String,
+    val text: String?,
     @SerializedName("color")
-    val color: String
+    val color: String?
 )
 
 data class IconModel(
     @SerializedName("image_type")
-    val imageType:String,
+    val imageType:String?,
     @SerializedName("image_url")
-    val imageUrl:String
+    val imageUrl:String?
+)
+
+data class BgImageModel(
+    @SerializedName("image_url")
+    val bgImage:String?,
+    @SerializedName("image_type")
+    val imageType:String?,
+    @SerializedName("aspect_ratio")
+    val aspectRatio:String?
+)
+
+data class CtaModel(
+    @SerializedName("text")
+    val text: String?,
+    @SerializedName("bg_color")
+    val bgColor:String?,
+    @SerializedName("text_color")
+    val textColor:String?,
+    @SerializedName("url")
+    val url:String?
 )
 

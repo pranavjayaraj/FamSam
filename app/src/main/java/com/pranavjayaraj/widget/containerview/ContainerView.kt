@@ -71,7 +71,7 @@ class ContainerView : FrameLayout, LifecycleObserver {
 
     private fun observeEvents() {
         viewModel.containerLiveData.observe(context.getLifecycleOwner(), {
-            val list:List<CardGroupModel> = it.cardGroups
+            val list:List<CardGroupModel> = it.cardGroups?: emptyList()
             mContainerAdapter.addList(list)
         })
     }

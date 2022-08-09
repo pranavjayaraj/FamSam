@@ -1,6 +1,5 @@
 package com.pranavjayaraj.base
 
-import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.pranavjayaraj.domain.models.containerModels.base.BaseModel
 import com.pranavjayaraj.utils.isValidList

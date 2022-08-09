@@ -1,13 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginVertical="7dp"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivBgCard"
+        app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Card.Media"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        app:layout_constraintLeft_toLeftOf="@id/ivCard"
+        app:layout_constraintRight_toRightOf="@id/ivCard"
+        app:layout_constraintBottom_toBottomOf="@id/ivCard"
+        app:layout_constraintTop_toTopOf="@id/ivCard"
+        android:layout_height="0dp"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:text="hello"
-        android:textSize="20dp"
-        android:textColor="@color/black"
         android:layout_width="wrap_content"
+        android:id="@+id/tvRemindLater"
+        android:text="remind later"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:drawableTop="@drawable/ic_bell_yellow"
+        android:textSize="12sp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="11dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/rounded_rect_grey"
+        android:textColor="@color/black"
+        android:layout_marginLeft="21dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:maxWidth="72dp"
+        android:drawablePadding="6dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvDismiss"
         android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvDismiss"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_width="wrap_content"
+        android:textSize="12sp"
+        android:maxWidth="72dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="@drawable/rounded_rect_grey"
+        android:text="dismiss now"
+        android:layout_marginLeft="21dp"
+        android:paddingHorizontal="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRemindLater"
+        android:paddingVertical="11dp"
+        android:drawableTop="@drawable/ic_dismiss_yellow"
+        android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivCard"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="0dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

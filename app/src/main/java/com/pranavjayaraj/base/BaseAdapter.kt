@@ -2,6 +2,8 @@ package com.pranavjayaraj.base
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.pranavjayaraj.domain.models.containerModels.base.BaseModel
+import com.pranavjayaraj.utils.isValidList
 
 abstract class BaseAdapter<T : BaseViewHolder<BaseModel>> : RecyclerView.Adapter<T>() {
     open var listItems: MutableList<BaseModel> = mutableListOf()

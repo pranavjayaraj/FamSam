@@ -1,6 +1,7 @@
 package com.pranavjayaraj.domain.models.containerModels
 
 import com.google.gson.annotations.SerializedName
+import com.pranavjayaraj.domain.models.containerModels.base.BaseModel
 
 data class ContainerRemoteResModel(
     @SerializedName("card_groups")
@@ -18,7 +19,7 @@ data class CardGroupModel(
     val cardDataModel: ArrayList<CardDataModel>,
     @SerializedName("is_scrollable")
     val isScrollable:Boolean
-)
+):BaseModel
 
 data class CardDataModel(
     @SerializedName("name")
@@ -35,7 +36,7 @@ data class CardDataModel(
     val icon:IconModel,
     @SerializedName("url")
     val url:String
-)
+):BaseModel
 
 data class FormattedTitles(
     @SerializedName("text")

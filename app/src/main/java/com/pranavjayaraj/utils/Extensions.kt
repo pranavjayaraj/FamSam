@@ -1,12 +1,14 @@
 package com.pranavjayaraj.utils
 
 import android.content.Context
+import android.content.ContextWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.content.res.Resources
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
@@ -27,4 +29,21 @@ fun Context.screenWidth(): Int {
 }
 fun Int.dpToPx(): Float {
     return (this * Resources.getSystem().displayMetrics.scaledDensity)
+}
+
+fun <T> List<T>?.isValidList(position: Int = -1): Boolean {
+    if (this.isNullOrEmpty() || position == -1)
+        return false
+
+    if (size <= position) return false
+
+    return true
+}
+
+fun Context.getLifecycleOwner(): LifecycleOwner {
+    return try {
+        this as LifecycleOwner
+    } catch (exception: ClassCastException) {
+        (this as ContextWrapper).baseContext as LifecycleOwner
+    }
 }

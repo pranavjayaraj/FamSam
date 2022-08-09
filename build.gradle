@@ -33,17 +33,13 @@ ext {
             rxKotlin                 : '2.2.0',
             rxBinding                : '2.2.0',
             lifecycleArchVersion     : '2.1.0',
-            evnetbus_sdk_version     : '3.1.1',
             timber                   : '4.7.1',
             mockito_version          : '2.22.0',
             mockito_kotlin           : '2.0.0-RC1',
             dagger                   : '2.16',
             glide                    : '4.11.0',
-            playServicesPhoneVersion : '17.3.0',
-            playServicesVersion      : '17.0.0',
             rxPermission             : '0.10.2',
-            work_version             : '2.5.0',
-            lottie_version           : '3.0.0',
+            timber_version           : '4.7.1'
     ]
 }
 

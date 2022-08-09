@@ -12,7 +12,7 @@ class MainActivity: BaseActivityVB<ActivityMainBinding>() {
     lateinit var homeViewModel: HomeViewModel
 
     override fun setup() {
-        TODO("Not yet implemented")
+        homeViewModel.getContainer()
     }
 
     override fun attachBinding(list: MutableList<ActivityMainBinding>, inflater: LayoutInflater) {

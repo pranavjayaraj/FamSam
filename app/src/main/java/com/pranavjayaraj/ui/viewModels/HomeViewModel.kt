@@ -4,6 +4,7 @@ import com.pranavjayaraj.base.BaseViewModel
 import com.pranavjayaraj.data.SchedulersFacade
 import com.pranavjayaraj.domain.SchedulerProvider
 import com.pranavjayaraj.domain.usecase.GetContainerUseCase
+import timber.log.Timber
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
@@ -16,7 +17,7 @@ class HomeViewModel @Inject constructor(
             .observeOn(schedulers.ui())
             .subscribeOn(schedulers.io())
             .subscribe({
-
+                Timber.d("[DATA]"+it)
             }, {
 
             })

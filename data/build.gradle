@@ -50,6 +50,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.jakewharton.timber:timber:$config.timber_version"
     kapt "androidx.room:room-compiler:$config.lifecycleArchVersion"
     ext.daggerDependencies = {
         implementation "com.google.dagger:dagger-android:$config.dagger"
@@ -62,7 +63,6 @@ dependencies {
         implementation "com.squareup.retrofit2:retrofit:$config.retrofit"
         implementation "com.squareup.okhttp3:okhttp:$config.okHttp"
         implementation "com.squareup.okhttp3:logging-interceptor:$config.okHttp"
-        implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
         implementation "com.google.code.gson:gson:$config.gson"
         implementation "com.squareup.retrofit2:converter-gson:$config.retrofit"
         implementation "com.squareup.retrofit2:converter-scalars:$config.retrofit"

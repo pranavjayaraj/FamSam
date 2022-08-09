@@ -1,11 +1,15 @@
 package com.pranavjayaraj.data.services
 
+import com.pranavjayaraj.domain.models.ContainerRemoteResModel
 import com.pranavjayaraj.domain.repository.ApiRepository
 import io.reactivex.Single
 import javax.inject.Inject
 
 class ApiRepositoryImpl @Inject constructor(
-    val apiService: ApiService
+    private val containerAPI: ContainerAPI
     ) : ApiRepository {
+    override fun getContainer(): Single<ContainerRemoteResModel> {
+        return containerAPI.getContainer()
+    }
 
 }

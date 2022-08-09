@@ -92,8 +92,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideApiService(@Named("auth_retrofit") retrofit: Retrofit): ApiService {
-        return retrofit.create(ApiService::class.java)
+    fun provideApiService(@Named("auth_retrofit") retrofit: Retrofit): ContainerAPI {
+        return retrofit.create(ContainerAPI::class.java)
     }
 
 }

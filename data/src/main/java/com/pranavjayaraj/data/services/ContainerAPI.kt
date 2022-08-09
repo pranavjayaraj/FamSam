@@ -1,9 +1,11 @@
-package com.pranavjayaraj.domain.repository
+package com.pranavjayaraj.data.services
 
 import com.pranavjayaraj.domain.models.ContainerRemoteResModel
 import io.reactivex.Single
+import retrofit2.http.*
 
-
-interface ApiRepository {
+interface ContainerAPI {
+    @GET(Urls.GET_CONTAINER)
     fun getContainer(): Single<ContainerRemoteResModel>
+
 }

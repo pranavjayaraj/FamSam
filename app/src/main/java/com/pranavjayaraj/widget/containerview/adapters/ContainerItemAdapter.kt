@@ -2,6 +2,8 @@ package com.pranavjayaraj.widget.containerview.adapters
 
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +23,7 @@ import com.pranavjayaraj.domain.models.containerModels.base.BaseModel
 import com.pranavjayaraj.utils.GlideDelegate
 import com.pranavjayaraj.widget.containerview.Constants
 import android.view.MotionEvent
+import android.widget.TextView
 import com.pranavjayaraj.BaseAdapterItemClick
 import com.pranavjayaraj.domain.models.containerModels.EntitiesModel
 import com.pranavjayaraj.widget.containerview.ContainerView.Companion.PARTIAL_GONE
@@ -82,8 +85,8 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
                 with(binding)
                 {
                     model.cardType = Constants.get(cardDesignType)?.key
-                    val formattedTitle:String? = formatText(text = model.formattedTitles?.text?:"",entities = model.formattedTitles?.entities?: arrayListOf())
-                    tvSmallCardTitle.text = formattedTitle?:model.title
+                    val formattedTitle:String? = formatText(text = model.formattedTitles?.text?:"",entity = model.formattedTitles?.entities?: arrayListOf())
+                    tvSmallCardTitle.text = Html.fromHtml(formattedTitle?:model.title)
                     binding.smallCardLayout.setCardBackgroundColor(Color.parseColor(model.bgColor?:"#FFFFFF"))
                     GlideDelegate(itemView.context).loadUrlWithPlaceHolder(
                         ivSmallCardIcon,
@@ -105,7 +108,7 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
             if (model is CardDataModel) {
                 with(binding)
                 {
-                    val formattedTitle:String? = formatText(text = model.formattedTitles?.text?:"",entities = model.formattedTitles?.entities?: arrayListOf())
+                    val formattedTitle:String? = formatText(text = model.formattedTitles?.text?:"",entity = model.formattedTitles?.entities?: arrayListOf())
                     model.cardType = Constants.get(cardDesignType)?.key
                     val constraintSet = ConstraintSet()
                     constraintSet.clone(root)
@@ -150,7 +153,7 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
                 with(binding)
                 {
                     model.cardType = Constants.get(cardDesignType)?.key
-                    val formattedTitle:String? = formatText(text = model.formattedTitles?.text?:"",entities = model.formattedTitles?.entities?: arrayListOf())
+                    val formattedTitle:String? = formatText(text = model.formattedTitles?.text?:"",entity = model.formattedTitles?.entities?: arrayListOf())
                     val constraintSet = ConstraintSet()
                     constraintSet.clone(root)
                     constraintSet.setDimensionRatio(R.id.ivImageCard,model.bgImageModel?.aspectRatio)
@@ -175,17 +178,15 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
 
                     model.cardType = Constants.get(cardDesignType)?.key
                     binding.smallCardArrowLayout.setCardBackgroundColor(Color.parseColor(model.bgColor?:"#FFFFFF"))
-                    val formattedTitle:String? = formatText(text = model.formattedTitles?.text?:"",entities = model.formattedTitles?.entities?: arrayListOf())
-                    tvSmallCardArrowTitle.text = formattedTitle?:model.title
+                    val formattedTitle:String? = formatText(text = model.formattedTitles?.text?:"",entity = model.formattedTitles?.entities?: arrayListOf())
+                    tvSmallCardArrowTitle.setText(Html.fromHtml(formattedTitle?:model.title), TextView.BufferType.SPANNABLE)
+                    tvSmallCardArrowTitle.movementMethod = LinkMovementMethod.getInstance();
                     GlideDelegate(itemView.context).loadUrlWithPlaceHolder(
                         ivSmallCardArrowIcon,
                         model.icon?.imageUrl,
                         0
                     )
-                    binding.root.setOnClickListener {
-                        model.viewType = "URL"
-                        onItemClick(model)
-                    }
+
                 }
             }
         }
@@ -214,16 +215,18 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
 
     }
 
-    fun formatText(text: String, entities: ArrayList<EntitiesModel>):String? {
+    fun formatText(text: String, entity: ArrayList<EntitiesModel>):String? {
         var count = 0
         var currText = text
-        var solution: StringBuffer = StringBuffer(text)
-        for (i in text.indices) {
-            if (text[i] == '{' && text[i + 1] == '}') {
+        var entities = entity
+        var solution: StringBuffer = StringBuffer(currText)
+        for (i in currText.indices)
+        {
+            if (currText[i] == '{' && currText[i+1]=='}') {
                 solution = StringBuffer(currText)
-                solution.setCharAt(i, '\u0000')
-                solution.setCharAt(i + 1, '\u0000')
-                solution.insert(i, entities[count].text)
+                solution.setCharAt(i,'\u0000')
+                solution.setCharAt(i+1,'\u0000')
+                solution.insert(i, "<a href='${entities[count].url}'<font color='${entities[count].color}'>${entities[count].text}</font></a>")
                 currText = solution.toString()
                 count++
             }

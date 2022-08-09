@@ -62,7 +62,9 @@ data class EntitiesModel(
     @SerializedName("text")
     val text: String?,
     @SerializedName("color")
-    val color: String?
+    val color: String?,
+    @SerializedName("url")
+    val url:String?
 )
 
 data class IconModel(

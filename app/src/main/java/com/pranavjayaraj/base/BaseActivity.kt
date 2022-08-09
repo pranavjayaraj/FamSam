@@ -1,9 +1,11 @@
 package com.pranavjayaraj.base
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.view.WindowManager
+import android.view.*
 import android.widget.Toast
+import androidx.annotation.LayoutRes
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
 import com.pranavjayaraj.common.ViewModelFactory
@@ -13,75 +15,73 @@ import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
-abstract class BaseActivity<VM: ViewModel,Binding: ViewBinding>: DaggerAppCompatActivity(){
+abstract class BaseActivity : ThemeActivity() {
 
-    private lateinit var viewModel: VM
+    abstract val contentView: Int
+        @LayoutRes
+        get
 
-    lateinit var view : Binding
+    protected var viewBindingEnabled = false
 
-    lateinit var compositeDisposable: CompositeDisposable
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    val glideUtil : GlideDelegate by lazy {
-        GlideDelegate(this)
-    }
+    val tag: String by lazy { this::class.java.simpleName }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val statusBarColor = getStatusBarColor()
-        if (statusBarColor != -1 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.statusBarColor = statusBarColor
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.decorView.windowInsetsController?.setSystemBarsAppearance(
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+            )
         }
-        view = getBindings()
-        compositeDisposable = CompositeDisposable()
-        viewModel = getViewModelInstance()
-        val view = view.root
-        setContentView(view)
-        onViewCreated()
+        attachLayout(layoutInflater)
+        setup()
+        initClickListeners()
     }
 
-    open fun getStatusBarColor(): Int{
-        return -1
-    }
+    abstract fun setup()
 
-
-    open fun handleErrorMsg(msg: String): Boolean{
-        return false
-    }
-
-    abstract fun getViewModelInstance(): VM
-
-
-    abstract fun getBindings():Binding
-
-
-    open fun initializeAdapter()
+    open fun initClickListeners()
     {
 
-    }
-
-    open fun initializeObservers()
-    {
-
-    }
-
-    open fun initializeClickListeners()
-    {
-
-    }
-
-    open fun onViewCreated()
-    {
-        initializeAdapter()
-        initializeObservers()
-        initializeClickListeners()
     }
 
     override fun onDestroy() {
-        compositeDisposable.checkAndDispose()
         super.onDestroy()
     }
+
+    override fun onBackPressed() {
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return true
+    }
+
+    private fun attachLayout(inflater: LayoutInflater) {
+        val bindingView: View? = getExternallyInflatedView(inflater)
+        when {
+            bindingView != null -> setContentView(bindingView)
+            contentView != VBHelpersImpl.RES_NO_LAYOUT -> setContentView(contentView)
+            else -> error(VBHelpersImpl.ERROR_NO_INFLATED_VIEW)
+        }
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        var newContext = newBase
+        super.attachBaseContext(newContext)
+    }
+
+    /**
+     * This function is used to provide a view that is already inflated with a layout to Activity
+     * call of `setContentView()` . There is no need to override this function, if you are directly
+     * extending [BaseActivity] , like `class MyActivity:BaseActivity` .
+     *
+     *  This function is useful where the class wishes to provide an inflated view manually to the
+     *  BaseActivity, such as [BaseActivityVB] . If you wish to create
+     *  a new wrapper view binding class, the override this function and pass the
+     *  bindedView  (via bindingInstance.root)  here
+     * */
+    open fun getExternallyInflatedView(inflater: LayoutInflater): View? = null
 }

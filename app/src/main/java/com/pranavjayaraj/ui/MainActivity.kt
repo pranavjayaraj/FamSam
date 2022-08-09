@@ -1,6 +1,17 @@
 package com.pranavjayaraj.ui
 
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import com.pranavjayaraj.base.BaseActivityVB
+import com.pranavjayaraj.databinding.ActivityMainBinding
 
-class MainActivity:AppCompatActivity() {
+class MainActivity: BaseActivityVB<ActivityMainBinding>() {
+
+    override fun setup() {
+        TODO("Not yet implemented")
+    }
+
+    override fun attachBinding(list: MutableList<ActivityMainBinding>, inflater: LayoutInflater) {
+        TODO("Not yet implemented")
+    }
+
 }

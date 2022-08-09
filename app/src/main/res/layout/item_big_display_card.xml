@@ -44,6 +44,7 @@
         android:maxLines="1"
         android:layout_width="wrap_content"
         android:textSize="12sp"
+        android:textColor="@color/black"
         android:maxWidth="72dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:background="@drawable/rounded_rect_grey"

@@ -4,8 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/rounded_rect_grey.xml" value="0.10729166666666666" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/item_big_display_card.xml" value="0.195399862804003" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.10046446698393757" />
+        <entry key="app/src/main/res/layout/item_big_display_card.xml" value="0.16213889847689858" />
         <entry key="app/src/main/res/layout/item_container_view.xml" value="0.19230769230769232" />
         <entry key="app/src/main/res/layout/item_dynamic_width_card.xml" value="0.16977987553294074" />
         <entry key="app/src/main/res/layout/item_image_card.xml" value="0.19230769230769232" />

@@ -38,6 +38,7 @@
         android:id="@+id/tvSmallCardArrowTitle"
         android:layout_width="wrap_content"
         android:textSize="14sp"
+        android:textColor="@color/black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/ivSmallCardArrowIcon"

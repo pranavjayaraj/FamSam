@@ -28,6 +28,7 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvSmallCardTitle"
         android:layout_width="wrap_content"
+        android:textColor="@color/black"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/tvSmallCardDesc"
         app:layout_constraintTop_toTopOf="parent"
@@ -37,6 +38,9 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvSmallCardDesc"
+        android:textSize="14sp"
+        android:visibility="gone"
+        android:textColor="@color/black"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/tvSmallCardTitle"

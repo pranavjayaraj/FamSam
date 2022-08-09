@@ -56,6 +56,7 @@ class ContainerView : FrameLayout, LifecycleObserver {
     fun setupData(containerViewModel: ContainerViewModel)
     {
         viewModel = containerViewModel
+        viewModel.getCardStatus()
         viewModel.getContainer()
         observeEvents()
     }
@@ -71,9 +72,19 @@ class ContainerView : FrameLayout, LifecycleObserver {
 
     private fun observeEvents() {
         viewModel.containerLiveData.observe(context.getLifecycleOwner(), {
-            val list:List<CardGroupModel> = it.cardGroups?: emptyList()
+            var list: List<CardGroupModel> = it.cardGroups ?: emptyList()
+            if (viewModel.isFirstTimeContainerCalled && viewModel.getCardStatus() == "PARTIAL_GONE") {
+                setCardStatus("VISIBLE")
+            } else if (viewModel.getCardStatus() in arrayOf("PARTIAL_GONE", "PERMANENT_GONE")) {
+                list = list.filter { it.designType != Constants.BIG_DISPLAY_CARD.key }
+            }
             mContainerAdapter.addList(list)
         })
+    }
+
+    fun setCardStatus(cardStatus:String)
+    {
+        viewModel.setCardStatus(cardStatus)
     }
 
 }

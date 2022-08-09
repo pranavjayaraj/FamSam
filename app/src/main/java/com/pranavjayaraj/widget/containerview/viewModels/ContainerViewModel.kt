@@ -5,16 +5,22 @@ import androidx.lifecycle.MutableLiveData
 import com.pranavjayaraj.base.BaseViewModel
 import com.pranavjayaraj.domain.SchedulerProvider
 import com.pranavjayaraj.domain.models.containerModels.ContainerRemoteResModel
+import com.pranavjayaraj.domain.usecase.GetCardStatusUseCase
 import com.pranavjayaraj.domain.usecase.GetContainerUseCase
+import com.pranavjayaraj.domain.usecase.SetCardStatusUseCase
 import timber.log.Timber
 import javax.inject.Inject
 
 class ContainerViewModel @Inject constructor(
     schedulersFacade: SchedulerProvider,
-    private val getContainerUseCase: GetContainerUseCase
+    private val getContainerUseCase: GetContainerUseCase,
+    private val cardStatusUseCase: GetCardStatusUseCase,
+    private val setCardStatusUseCase: SetCardStatusUseCase
 ) : BaseViewModel(schedulersFacade) {
 
-    val containerLiveData  = MutableLiveData<ContainerRemoteResModel>()
+    val isFirstTimeContainerCalled = false
+
+    val containerLiveData = MutableLiveData<ContainerRemoteResModel>()
 
     fun getContainer() {
         getContainerUseCase.execute()
@@ -22,11 +28,22 @@ class ContainerViewModel @Inject constructor(
             .subscribeOn(schedulers.io())
             .subscribe({
                 containerLiveData.postValue(it)
-                Log.d("[SUCCESS]","DATA IS"+it)
-                Timber.d("[DATA IS]"+it)
             }, {
-                Log.d("[FAILED]","DATA IS"+it)
-            })
+            }).let {
+                getCompositeDisposable().add(it)
+            }
     }
 
+    fun getCardStatus(): String? {
+        return cardStatusUseCase.execute()
+    }
+
+    fun setCardStatus(status: String) {
+        setCardStatusUseCase.execute(status)
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.ui())
+            .subscribe({}, {
+
+            }).let { }
+    }
 }

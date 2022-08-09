@@ -5,7 +5,6 @@ import com.pranavjayaraj.data.services.NetworkModule
 import com.pranavjayaraj.data.SchedulersFacade
 import com.pranavjayaraj.domain.SchedulerProvider
 import com.pranavjayaraj.domain.repository.ApiRepository
-import com.pranavjayaraj.domain.repository.DbRepository
 import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton

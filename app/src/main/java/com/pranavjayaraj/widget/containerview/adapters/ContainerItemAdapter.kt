@@ -224,8 +224,8 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
 
     }
 
-    fun formatText(text: String, entity: ArrayList<EntitiesModel>):String? {
-        var count = 0
+    fun formatText(text: String, entity: ArrayList<EntitiesModel>,coun:Int=0):String? {
+        var count = coun
         var currText = text
         var entities = entity
         var solution: StringBuffer = StringBuffer(currText)
@@ -238,7 +238,7 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
                 solution.insert(i, "<a href='${entities[count].url}'<font color='${entities[count].color}'>${entities[count].text}</font></a>")
                 currText = solution.toString()
                 count++
-                formatText(currText,entities)
+                return formatText(currText,entities,count)
             }
         }
         return currText

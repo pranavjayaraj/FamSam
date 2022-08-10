@@ -30,6 +30,6 @@ This will contain views, viewmodels, drawables, layouts, styles, strings etc.
 
 - Design: [https://www.figma.com/file/AvK2BRGwMTv4kQab5ymJ0K/AAL3-Android-assignment-Design-Specs](https://www.figma.com/file/AvK2BRGwMTv4kQab5ymJ0K/AAL3-Android-assignment-Design-Specs)
 
-- APK: Please check the root of this project directory
+- APK: Please check the root of this project directory - app-debug.apk
 
 - Articles : Checkout my article on clean architecture -[https://thepranavjayaraj.medium.com/clean-architecture-a-brief-introduction-ddca823277a7]

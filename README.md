@@ -22,9 +22,7 @@ This will contain views, viewmodels, drawables, layouts, styles, strings etc.
 - Reactive extensions 
 - Dagger2 
 - MVVM
-- Sharedpref*
-
-Resource used
+- SharedPreferences
 
 ## Resources
 

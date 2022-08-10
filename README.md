@@ -24,3 +24,5 @@ Resource used
 - Design: [https://www.figma.com/file/AvK2BRGwMTv4kQab5ymJ0K/AAL3-Android-assignment-Design-Specs](https://www.figma.com/file/AvK2BRGwMTv4kQab5ymJ0K/AAL3-Android-assignment-Design-Specs)
 
 - APK: Please check the root of this project directory
+
+- Articles : Checkout my article on clean architecture -[https://thepranavjayaraj.medium.com/clean-architecture-a-brief-introduction-ddca823277a7]

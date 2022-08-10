@@ -25,6 +25,10 @@ This will contain views, viewmodels, drawables, layouts, styles, strings etc.
 - Retrofit
 - SharedPreferences
 
+## Improvements that can be done:
+
+- recyclerview data updation using Diffutils
+
 ## Resources
 
 - API : [https://run.mocky.io/v3/04a04703-5557-4c84-a127-8c55335bb3b4](https://run.mocky.io/v3/04a04703-5557-4c84-a127-8c55335bb3b4)

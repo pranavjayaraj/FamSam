@@ -15,6 +15,15 @@
 - *Presentation Layer* : This layer contains UI logic (All android context related things will be done here). <br/>
 This will contain views, viewmodels, drawables, layouts, styles, strings etc.
 
+## Tech stack
+
+- Android SDK 
+- Kotlin 
+- Reactive extensions 
+- Dagger2 
+- MVVM
+- Sharedpref*
+
 Resource used
 
 ## Resources

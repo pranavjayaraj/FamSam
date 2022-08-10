@@ -109,14 +109,24 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
                 with(binding)
                 {
                     val formattedTitle:String? = formatText(text = model.formattedTitles?.text?:"",entity = model.formattedTitles?.entities?: arrayListOf())
+                    val formattedDesc:String? = formatText(text = model.formattedDescription?.text?:"",entity = model.formattedDescription?.entities?: arrayListOf())
+                    tvBigCardTitle.text = Html.fromHtml(formattedTitle)
+                    tvBigCardDesc.text = Html.fromHtml(formattedDesc)
                     model.cardType = Constants.get(cardDesignType)?.key
                     val constraintSet = ConstraintSet()
                     constraintSet.clone(root)
                     constraintSet.setDimensionRatio(R.id.ivCard,model.bgImageModel?.aspectRatio)
                     constraintSet.applyTo(root)
                     GlideDelegate(itemView.context).loadUrlWithPlaceHolder(ivCard,model.bgImageModel?.bgImage,0)
+                    val ctaModel = model.ctaModel?.firstOrNull()
+                    if(ctaModel!=null) {
+                        tvBigCardAction.text = ctaModel.text ?: ""
+                        tvBigCardAction.setTextColor(Color.parseColor(ctaModel.textColor))
+                        val drawable = tvBigCardAction.background as GradientDrawable
+                        drawable.setColor(Color.parseColor(ctaModel.bgColor))
+                    }
                 }
-                binding.ivCard.setOnLongClickListener {
+                binding.ivCardLayout.setOnLongClickListener {
                     it.animate()
                         .x(114.dpToPx())
                         .setDuration(0)
@@ -138,7 +148,7 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
                     model.viewType = "URL"
                     onItemClick(model)
                 }
-                binding.root.setOnClickListener {
+                binding.tvBigCardAction.setOnClickListener {
                     model.viewType = "CTA"
                     onItemClick(model)
                 }
@@ -153,7 +163,6 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
                 with(binding)
                 {
                     model.cardType = Constants.get(cardDesignType)?.key
-                    val formattedTitle:String? = formatText(text = model.formattedTitles?.text?:"",entity = model.formattedTitles?.entities?: arrayListOf())
                     val constraintSet = ConstraintSet()
                     constraintSet.clone(root)
                     constraintSet.setDimensionRatio(R.id.ivImageCard,model.bgImageModel?.aspectRatio)
@@ -229,10 +238,12 @@ class ContainerItemsAdapter(private val cardDesignType:String,private val height
                 solution.insert(i, "<a href='${entities[count].url}'<font color='${entities[count].color}'>${entities[count].text}</font></a>")
                 currText = solution.toString()
                 count++
+                formatText(currText,entities)
             }
         }
-        return solution.toString()
+        return currText
     }
+
 }
 
 

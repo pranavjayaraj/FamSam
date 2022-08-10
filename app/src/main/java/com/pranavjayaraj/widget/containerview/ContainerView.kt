@@ -26,8 +26,7 @@ import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.pranavjayaraj.domain.base.ResourceState
-import kotlinx.android.synthetic.main.activity_main.view.*
-import kotlinx.android.synthetic.main.view_container.view.*
+
 
 
 class ContainerView : FrameLayout, LifecycleObserver {
@@ -91,30 +90,35 @@ class ContainerView : FrameLayout, LifecycleObserver {
     }
 
     private val onItemClick = { card: CardDataModel ->
-        if(card.viewType == "URL" || card.viewType == "CTA")
-        {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(card.url?:card.ctaModel?.first()?.url))
-            context.startActivity(intent)
-        }
-        else {
-            when (card.cardType) {
-                Constants.BIG_DISPLAY_CARD.key -> {
-                    if (card.status in arrayOf(PARTIAL_GONE, PERMANENT_GONE)) {
-                        setCardStatus(card.status)
-                        mContainerAdapter.addList(cardList.filter { it.designType != Constants.BIG_DISPLAY_CARD.key })
+        when (card.viewType) {
+            "URL" -> {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(card.url))
+                context.startActivity(intent)
+            }
+            "CTA" -> {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(card.ctaModel?.first()?.url))
+                context.startActivity(intent)
+            }
+            else -> {
+                when (card.cardType) {
+                    Constants.BIG_DISPLAY_CARD.key -> {
+                        if (card.status in arrayOf(PARTIAL_GONE, PERMANENT_GONE)) {
+                            setCardStatus(card.status)
+                            mContainerAdapter.addList(cardList.filter { it.designType != Constants.BIG_DISPLAY_CARD.key })
+                        }
                     }
-                }
-                Constants.SMALL_DISPLAY_CARD.key -> {
+                    Constants.SMALL_DISPLAY_CARD.key -> {
 
-                }
-                Constants.DYNAMIC_WIDTH_CARD.key -> {
+                    }
+                    Constants.DYNAMIC_WIDTH_CARD.key -> {
 
-                }
-                Constants.SMALL_CARD_WITH_ARROW.key -> {
+                    }
+                    Constants.SMALL_CARD_WITH_ARROW.key -> {
 
-                }
-                Constants.IMAGE_CARD.key -> {
+                    }
+                    Constants.IMAGE_CARD.key -> {
 
+                    }
                 }
             }
         }

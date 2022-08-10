@@ -28,8 +28,6 @@ This will contain views, viewmodels, drawables, layouts, styles, strings etc.
 
 - API : [https://run.mocky.io/v3/04a04703-5557-4c84-a127-8c55335bb3b4](https://run.mocky.io/v3/04a04703-5557-4c84-a127-8c55335bb3b4)
 
-- Design: [https://www.figma.com/file/AvK2BRGwMTv4kQab5ymJ0K/AAL3-Android-assignment-Design-Specs](https://www.figma.com/file/AvK2BRGwMTv4kQab5ymJ0K/AAL3-Android-assignment-Design-Specs)
-
 - APK: Please check the root of this project directory - app-debug.apk
 
 - Articles : Checkout my article on clean architecture -[https://thepranavjayaraj.medium.com/clean-architecture-a-brief-introduction-ddca823277a7]
